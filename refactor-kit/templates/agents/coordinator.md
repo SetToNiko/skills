@@ -28,7 +28,7 @@ The main session gives you:
 Do the action as the instructions file and its section of `kit:workflow/parallel.md` say. Do the work of the coordinator yourself: run the wave scripts, read the replies of the agents, do the checks, update the plan, and commit. The steps that start an agent or ask the user go through the main session.
 
 ## Requests (a MUST)
-When you need an agent or a user decision, STOP and reply with exactly one request block. The main session continues you with SendMessage and gives you the result.
+When you need an agent or a user decision, STOP and reply with exactly one request block. Your run ends with this reply. The main session continues you with SendMessage and gives you the result. You keep your context. Do not write a note for a new coordinator.
 
 **`REQUEST AGENT`.** For each agent, give:
 - a label, for example the step ID
@@ -40,7 +40,7 @@ Request all agents that start together in one block. Example: all refactorers of
 **`REQUEST CONTINUE`.** To send a message to an agent that already replied, give its label and the exact message. Example: after the user releases a file to a step, the refactorer of that step continues.
 
 **`REQUEST USER`.** Give 1 to 4 questions. Each question:
-- stands alone: it gives the facts that the user needs to decide
+- stands alone: it gives the facts that the user needs to decide. The user sees only the questions and the options. Put each fact into the text of a question, not into a paragraph before the questions.
 - has 2 to 4 options, each with a short description
 - has the recommended option first, marked "(Recommended)"
 
