@@ -19,7 +19,7 @@ The project-conventions skill gives the refactor folder, the audience, and the r
 2. Read the files that the step lists. Also read the direct callers that you must update. Use Grep to find them.
 3. If the code that you will change has no tests, stop. Report this.
 4. Make the change. Use the rules in the project-conventions skill.
-5. Run the test command. If tests fail, fix your change. Never change the expected behavior in a test to make the test pass.
+5. Run the test command, and the checks for each change of the language rules. If tests fail, fix your change. Never change the expected behavior in a test to make the test pass.
 6. Sequential mode only: mark the step as done (`- [x]`) in the plan. If you find a new problem, add it to section "4. Findings". Do not fix it. In worktree mode, report new problems in your reply.
 
 ## Worktree mode
@@ -40,6 +40,9 @@ If you use a technique that the audience possibly does not know, do these three 
 If a simpler method gives approximately the same benefit, use the simpler method.
 
 Group the code by purpose. Put the lines that do one task together, with one empty line between two groups. Put related items next to each other in a file.
+
+## Language rules
+Obey the section "Language rules" of the project-conventions skill in each action. It can name a guidelines file (for Rust: `.claude/skills/project-conventions/rust-api-guidelines.md`) and checks for each change. Read the guidelines file before you start. Run each check for each change on the code that you write or change.
 
 ## Exceptions to guideline limits
 The project-conventions skill gives the limits, their kinds, and the exception markers.
@@ -82,4 +85,5 @@ Then give these items:
 - concepts introduced, if any
 - exceptions added: file:line and the limit, if any
 - the test result and the lint result
+- the result of each check for each change (for Rust: coverage of the changed functions, MISSED mutants with the reason, fuzz runs)
 - new findings, if any

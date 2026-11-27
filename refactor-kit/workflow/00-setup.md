@@ -233,6 +233,7 @@ Show the table, or only the changed rows if an old file exists. Get approval.
 In parallel mode, also write the files of `kit:workflow/parallel.md`, section S, part 7.
 
 5. In each agent file, replace `{{MODEL}}` with the model from part 5.
+   If a main language is Rust, also copy `kit:reference/rust-api-guidelines.md` to `.claude/skills/project-conventions/rust-api-guidelines.md`. The "Language rules" section of the conventions gives this path.
 6. If the user selected "use as drafts" in part 1, remove the old files. If they are tracked, use `git rm`.
 7. Run `grep -rn "{{" <refactor folder> .claude/agents .claude/skills/project-conventions`. The result must be empty. Fix each placeholder that remains. Also search the new files for "TBD" and for the old names of part 1.
 8. Commit with the message "Prepare refactor: <goal in a few words>", if the Commits setting permits it.

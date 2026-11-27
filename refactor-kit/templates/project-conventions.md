@@ -32,7 +32,7 @@ description: Gives the stack, commands, refactor settings, coding rules, and doc
 - Line limits count lines of code only: no empty lines, no comment lines (doc comments too). Group the code by purpose, with one empty line between two groups.
 
 ## Language rules
-{{LANGUAGE_RULES: from the language profile, approved in setup part 5. The lint groups and policy, the exception syntax, and the measure notes. 8 lines or fewer for each language.}}
+{{LANGUAGE_RULES: from the language profile, approved in setup part 5. The lint groups and policy, the exception syntax, and the measure notes. If the profile has them: the module layout, the test locations, the guidelines file, and the checks for each change, with their commands. 14 lines or fewer for each language.}}
 
 ## Code rules
 - A refactor does not change behavior. Exception: a step with the tag `[feature]`.

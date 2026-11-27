@@ -47,13 +47,33 @@ Example comment for an advanced technique: `// Trait object: each app integratio
   - `# Errors` on each function that returns `Result`
   - `# Panics` on each function that can panic
   - `# Safety` on each `unsafe` function
-  - `# Examples` where the use is not obvious
+  - `# Examples` on each public item (API guidelines C-EXAMPLE). Examples use `?`, not `unwrap` (C-QUESTION-MARK).
 - Backticks for code. Intra-doc links (`[`Type`]`) for types and functions.
 - Check: `RUSTDOCFLAGS="-D warnings" cargo doc --no-deps --document-private-items`
 
 **Exception syntax.** For a verified exception that a lint also reports, use the lint attribute with a reason. The compiler then reports the attribute when the exception is no longer necessary.
 - `#[expect(clippy::too_many_lines, reason = "...")]`
 - Never use `#[allow(...)]` without a `reason`.
+
+**Module layout (hard, no exceptions).**
+- A `mod.rs` file holds only module declarations. A declaration is public (`pub mod <name>;`), private (`mod <name>;`), or internal (`pub(crate) mod <name>;`, `pub(super) mod <name>;`, or `pub(in <path>) mod <name>;`). The file also holds the `//!` header of the folder, and an optional `///` comment on each declaration. Nothing else: no `use`, no code, no `pub use`, no `#[cfg(test)]` module, no other attribute.
+- Expose only what the consumer needs. Use the smallest visibility that works. Private: only the folder uses the module. Internal: other modules of the crate use it. Public: only for the API of the crate.
+- Code that a `mod.rs` file holds today moves into a child module of the folder, with a name that gives its purpose.
+- Add a gate: a script that fails when a `mod.rs` file has a line that is not empty, not a comment, and not a module declaration. A module declaration is `mod <name>;`, with an optional `pub`, `pub(crate)`, `pub(super)`, or `pub(in <path>)`.
+
+**Tests (hard).**
+- Unit tests are in the file that contains the function that they test, in a `mod tests` at the end of the file. The module has `#[cfg(test)]`, and each test function has `#[test]`. A unit test never goes into a separate file or into a `mod.rs`.
+- Integration tests are in the `tests/` folder of the crate root (next to `Cargo.toml`, where Cargo finds them). For a crate at the repository root, this is `<project root>/tests/`. An integration test uses only the public API of the crate. A binary crate needs a library target (`src/lib.rs`) for integration tests, or the tests run the binary.
+- Test names are `snake_case` and give the behavior.
+
+**API guidelines (a MUST).** Each agent obeys the Rust API Guidelines (https://rust-lang.github.io/api-guidelines/) when it writes, changes, reviews, simplifies, tests, or documents Rust code. The checklist with its IDs: `kit:reference/rust-api-guidelines.md`. The setup copies it into the project (setup, part 7).
+
+**Checks for each change of Rust code (a MUST).** After each change, addition, or creation of Rust code, the agent runs these tools on the changed code:
+- **cargo-nextest (the test runner):** `cargo nextest run`. nextest does not run doc tests, so also run `cargo test --doc`.
+- **cargo-llvm-cov (coverage):** `cargo llvm-cov nextest --summary-only` for the total, and `cargo llvm-cov nextest --show-missing-lines` for the lines without a test. Each changed function has a test that runs it. The total never decreases.
+- **cargo-mutants (test strength):** `git diff > <tmp>/step.diff`, then `cargo mutants --in-diff <tmp>/step.diff --test-tool nextest --output <tmp>`. Write the output into a temporary folder, never into the project: the merge script commits each new file of a worktree. For each MISSED mutant, add a test that catches it. If a mutant gives the same behavior as the original code, give the reason in the reply.
+- **cargo-fuzz (outside input):** outside input is data from files, arguments, the network, or the user. Each changed function that parses or decodes outside input gets a fuzz target, or keeps its target. Run each affected target for a short time: `cargo +nightly fuzz run <target> -- -max_total_time=60`. A crash is a finding. Add the crash input as a unit test. Other changes do not need fuzzing. cargo-fuzz needs a nightly toolchain and a library target. The dev shell adds the nightly toolchain only for cargo-fuzz.
+- In parallel mode, these tools load the machine. The coordinator includes them when it selects the number of agents (`kit:reference/parallel-rules.md`, section 2).
 
 **Measure notes.**
 - `cargo test` captures the output of passing tests. To count printed lines (for example "skipped:"), run `cargo test -- --nocapture`.
@@ -66,7 +86,7 @@ Example comment for an advanced technique: `// Trait object: each app integratio
 - Duplicates: `lizard -Eduplicate` (jscpd is not always packaged).
 - Data tests in a build sandbox: tests that read the real data skip there. Add a test-only helper that returns the real data folder if it exists, else a fixtures folder in the crate (for example `tests/fixtures/data`). Add the fixtures folder to the package source. Then the sandbox runs the data tests, and a developer machine still tests the real data.
 
-**Tools that are usually missing.** clippy, rustfmt, cargo-modules (dependency cycles), cargo-llvm-cov (coverage). If the scan shows one as not available, the plan adds it in Phase 0.
+**Tools that are usually missing.** clippy, rustfmt, cargo-modules (dependency cycles), cargo-llvm-cov (coverage), cargo-nextest, cargo-mutants, cargo-fuzz with a nightly toolchain. If the scan shows one as not available, the plan adds it in Phase 0.
 
 ---
 

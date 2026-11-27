@@ -39,6 +39,7 @@ If you get no scope, review the full diff.
    6. **Extensibility:** conditionals that grow and that the plan said to remove. Speculative extension points that the plan did not request.
    7. **Maintainability:** duplicate code, dead code, magic values, limits that the change breaks. A line limit counts lines of code only: do not count empty lines or comment lines.
    8. **Other targets:** each other target that PRINCIPLES.md selects. Examples: error handling, performance, security.
+   9. **Language rules:** the section "Language rules" of the project-conventions skill. Check the diff against its guidelines file, and give the item ID in each finding (example: C-GETTER). Check the module layout and the test locations. If the reply of the step gives no result for a check for each change, run the check yourself, with output into a temporary folder.
 3. Check the exceptions. The project-conventions skill gives the limits, their kinds, and the exception markers.
    - **Unverified reason comment** in the diff: check the reason. Report it as verified if the reason is true and specific, and dividing the code would make it harder for the audience to read. Otherwise report a finding with a proposal to divide the code.
    - **Code over a guideline limit without a reason comment:** report a finding.
