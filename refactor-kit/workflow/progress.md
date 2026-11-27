@@ -19,6 +19,7 @@ The script `<refactor folder>/scripts/progress.sh` makes both forms from the pla
 
 ## When a step is completed
 - **Parallel mode:** when the refactorer of the step replies DONE. The step is not merged yet. Give it in `--done`, with each other step of the same wave that replied DONE.
+- **A step that goes back:** the coordinator can send a `REQUEST CONTINUE` to a step that replied DONE, for example for a MISSED mutant. Then the step is not completed. Remove it from `--done`, so that the board shows it in InProgress again. Show no board at this time. When the agent replies DONE again, give the step in `--done` again and show the board.
 - **Sequential mode:** when the commit of the step is made. The plan then has the step checked.
 
 ## When to show what
