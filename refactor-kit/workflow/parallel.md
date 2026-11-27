@@ -32,6 +32,7 @@ In this mode, the kit session does not do the work of the coordinator. It starts
 **Relay the requests.** The coordinator stops at each request. Do the request, then continue the coordinator with SendMessage.
 - **`REQUEST AGENT`:** start each agent with the given type and the exact instruction. Start all agents of one block in ONE message. Keep a list of the label and the agent ID of each agent. Send each reply to the coordinator without changes, with its label. If the agents are the refactorers of the first wave of a phase (`kit:workflow/progress.md`, section "Calculation"), also show the progress report with `--active <their step IDs>` (`kit:workflow/progress.md`).
 - **`REQUEST CONTINUE`:** send the exact message to the agent of the label. Send the reply to the coordinator without changes.
+- **A DONE reply of a refactorer:** show the step board and send its push notification (`kit:workflow/progress.md`, section "How to show it"). Then send the reply to the coordinator.
 - **`REQUEST USER`:** if the PushNotification tool is available, send a push notification first. Name the action and the number of questions, in one line. Then ask the questions with AskUserQuestion. Keep the text and the order of the options. If the block has facts outside the questions, put them, without changes, at the start of the first question. Send the answers to the coordinator without changes.
 - **`ACTION DONE`:** show the summary to the user. Then do `kit:SKILL.md`, section 3, but do not recommend `/clear`.
 
@@ -107,7 +108,7 @@ Replace the placeholders in the scripts: `{{TEST_CMD}}`, `{{REFACTOR_FOLDER}}`, 
 1. Read the plan. Find the lowest wave number that has unchecked steps. These steps are the wave. If `MAX_PARALLEL` is `0` (dynamic), select the number of agents for this wave (`kit:reference/parallel-rules.md`, section 2, "Dynamic maximum"). Show the wave to the user in 3 lines or fewer, with the number of agents and its reason. Ask to continue.
 2. Run `<refactor folder>/scripts/wave-start.sh <step IDs>`. If the script prints an error, show it to the user and stop. Do not change the plan to remove the error without approval.
 3. Start one `refactorer` agent for each step, all in ONE message. Give each agent: "Do step <ID> of `<refactor folder>/PLAN.md`. Your worktree: `<path>`. Your scratch folder: `<scratch>/<ID>/`."
-4. When a refactorer replies DONE, start the simplifier for that step at once, if the Simplify setting selects one. Give it: "Simplify the uncommitted changes in the worktree `<path>`." Do not wait for the other refactorers.
+4. When a refactorer replies DONE, show the step board (`kit:workflow/progress.md`). Then start the simplifier for that step at once, if the Simplify setting selects one. Give it: "Simplify the uncommitted changes in the worktree `<path>`." Do not wait for the other refactorers.
 5. Wait for all agents. Do not merge a step whose refactorer replied BLOCKED or NEEDS. Then do these actions:
    - **NEEDS, for a file outside `Owns`:** if no other open step owns the file, release it to the step. Tell the agent to continue (`kit:reference/parallel-rules.md`, section 3). Otherwise, make a later step.
    - **PARTIAL:** merge the part that is done, if all checks pass. Make a new step for the rest (section 7 of the rules).

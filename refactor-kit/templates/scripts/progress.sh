@@ -1,17 +1,24 @@
 #!/usr/bin/env bash
 # Prints the progress report of the refactor as Markdown. It reads the plan and changes no file.
 #
-# Usage: {{REFACTOR_FOLDER}}scripts/progress.sh [--active P4.1,P4.2] [--line]
+# Usage: {{REFACTOR_FOLDER}}scripts/progress.sh [--active IDs] [--done IDs] [--step ID] [--board] [--line]
 #   --active  The steps that an agent does now. They go into the column InProgress.
 #             In parallel mode, the script also adds each open step that has a worktree.
 #   --line    Print only one line for a push notification. Example:
 #             Phase 4: 27 % (3/11 steps, wave 1/3)
+#   --done    The steps whose agent replied DONE, but that are not merged yet.
+#             They go into the column Completed, with the mark "(merging)".
+#   --step    The step that is now completed. The board is for its phase.
+#             With --line, the line is the board in one line. Example:
+#             P4.12 done · Phase 4: 86 % (13/15) · in progress 2 · to do 0
+#   --board   Print only the board, not the table of all phases.
 #
 # The report has two parts:
 #   1. A table with one row for each phase: steps, waves, review, and status.
 #   2. A board for the current phase (the first phase that is not done):
 #      the columns ToDo, InProgress, and Completed.
-# The percent of a phase is: checked steps / all steps of the phase.
+# The percent of a phase in the table is: checked steps / all steps of the phase.
+# The percent of the board also counts the steps of --done.
 # A wave is done when all of its steps are checked.
 
 set -euo pipefail
@@ -27,6 +34,9 @@ if [ -f "$SCRIPT_DIR/config.sh" ]; then
 fi
 
 active=""
+done_ids=""
+step=""
+board_only=0
 line_only=0
 while [ $# -gt 0 ]; do
   case "$1" in
@@ -35,8 +45,19 @@ while [ $# -gt 0 ]; do
       active="$2"
       shift 2
       ;;
+    --done)
+      if [ $# -lt 2 ]; then echo "ERROR: --done needs step IDs. Example: --done P4.12" >&2; exit 1; fi
+      done_ids="$2"
+      shift 2
+      ;;
+    --step)
+      if [ $# -lt 2 ]; then echo "ERROR: --step needs one step ID. Example: --step P4.12" >&2; exit 1; fi
+      step="$2"
+      shift 2
+      ;;
+    --board) board_only=1; shift ;;
     --line) line_only=1; shift ;;
-    *) echo "ERROR: unknown argument: $1. Use --active <IDs> or --line." >&2; exit 1 ;;
+    *) echo "ERROR: unknown argument: $1. Use --active, --done, --step, --board, or --line." >&2; exit 1 ;;
   esac
 done
 
@@ -53,7 +74,7 @@ if [ -n "$WORKTREE_ROOT" ]; then
   fi
 fi
 
-awk -v active="$active" -v line_only="$line_only" '
+awk -v active="$active" -v done_ids="$done_ids" -v step="$step" -v board_only="$board_only" -v line_only="$line_only" '
 function trim(s) { sub(/^[ \t]+/, "", s); sub(/[ \t]+$/, "", s); return s }
 # Cuts a long title. If the cut leaves an open code span, close it.
 function short(s,   t) {
@@ -65,6 +86,8 @@ function short(s,   t) {
 BEGIN {
   n = split(active, list, ",")
   for (i = 1; i <= n; i++) if (list[i] != "") is_active[list[i]] = 1
+  n = split(done_ids, list, ",")
+  for (i = 1; i <= n; i++) if (list[i] != "") is_done[list[i]] = 1
   phases = 0
 }
 # Section 6 holds the phases and the steps.
@@ -120,6 +143,25 @@ END {
     pct[p] = (s > 0) ? int(c * 100 / s) : 100
     if (current == 0 && st != "done") current = p
   }
+  # The board phase: the phase of --step, or else the current phase.
+  bp = current
+  if (step != "") {
+    for (p = 1; p <= phases; p++) for (i = 1; i <= steps[p]; i++) if (sid[p, i] == step) bp = p
+  }
+  # Fill the 3 columns of the board. A step of --done counts as completed.
+  nt = 0; ni = 0; nc = 0
+  for (i = 1; i <= steps[bp]; i++) {
+    item = sid[bp, i] " " short(stitle[bp, i])
+    if (sdone[bp, i]) col_c[++nc] = item
+    else if (is_done[sid[bp, i]]) col_c[++nc] = item " (merging)"
+    else if (is_active[sid[bp, i]]) col_i[++ni] = item
+    else col_t[++nt] = item
+  }
+  bpct = (steps[bp] > 0) ? int(nc * 100 / steps[bp]) : 100
+  if (line_only && step != "") {
+    printf "%s done · Phase %s: %d %% (%d/%d) · in progress %d · to do %d\n", step, num[bp], bpct, nc, steps[bp], ni, nt
+    exit
+  }
   if (line_only) {
     if (current == 0) { print "Refactor: all phases done"; exit }
     p = current
@@ -129,26 +171,21 @@ END {
     print out ")"
     exit
   }
-  print "## Refactor progress"
-  print ""
-  print "| Phase | Steps | Waves | Review | Status |"
-  print "|---|---|---|---|---|"
-  for (p = 1; p <= phases; p++) {
-    w = (waves[p] > 0) ? wdone[p] "/" waves[p] : "-"
-    mark = (p == current) ? "**" : ""
-    printf "| %s%s %s%s | %d/%d (%d %%) | %s | %s | %s |\n", mark, num[p], name[p], mark, checked[p] + 0, steps[p] + 0, pct[p], w, rev[p], status[p]
+  if (!board_only) {
+    print "## Refactor progress"
+    print ""
+    print "| Phase | Steps | Waves | Review | Status |"
+    print "|---|---|---|---|---|"
+    for (p = 1; p <= phases; p++) {
+      w = (waves[p] > 0) ? wdone[p] "/" waves[p] : "-"
+      mark = (p == current) ? "**" : ""
+      printf "| %s%s %s%s | %d/%d (%d %%) | %s | %s | %s |\n", mark, num[p], name[p], mark, checked[p] + 0, steps[p] + 0, pct[p], w, rev[p], status[p]
+    }
+    if (bp == 0) { print ""; print "All phases are done."; exit }
+    print ""
   }
-  if (current == 0) { print ""; print "All phases are done."; exit }
-  p = current
-  print ""
-  printf "### Phase %s board (%d %%)\n\n", num[p], pct[p]
-  nt = 0; ni = 0; nc = 0
-  for (i = 1; i <= steps[p]; i++) {
-    item = sid[p, i] " " short(stitle[p, i])
-    if (sdone[p, i]) col_c[++nc] = item
-    else if (is_active[sid[p, i]]) col_i[++ni] = item
-    else col_t[++nt] = item
-  }
+  if (bp == 0) { print "All phases are done."; exit }
+  printf "### Phase %s board (%d %%)\n\n", num[bp], bpct
   rows = nt; if (ni > rows) rows = ni; if (nc > rows) rows = nc
   print "| ToDo | InProgress | Completed |"
   print "|---|---|---|"
