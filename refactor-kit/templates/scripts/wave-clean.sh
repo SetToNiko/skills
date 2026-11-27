@@ -36,7 +36,8 @@ for step in "$@"; do
     if [ -d "$path" ]; then git worktree remove "$path"; fi
     git branch --quiet -d "$branch"
     # A branch with no commits is also an ancestor. Only a merge commit shows a real merge.
-    if git log --format=%s "$INTEGRATION_BRANCH" | grep -q -F "Merge $step: "; then
+    # Use "git log --grep", not a pipe into "grep -q": with pipefail, the pipe can fail on SIGPIPE.
+    if [ -n "$(git log -F --grep="Merge $step: " --format=%h "$INTEGRATION_BRANCH")" ]; then
       echo "$step: removed (merged)"
     else
       echo "$step: removed (no changes, nothing was merged)"
