@@ -57,7 +57,7 @@ If the user gives an argument, do that action. First check that the state permit
 
 **Execution mode.** The project-conventions skill gives the Execution mode setting. In the mode "parallel waves", the action next runs one wave of steps, not one step. Each instructions file says which section of `kit:workflow/parallel.md` to use.
 
-The argument "status" only reports. It changes nothing.
+The argument "status" only reports. It changes nothing. It shows the progress report (`kit:workflow/progress.md`).
 
 The argument "goal" changes the goal during the refactor, for example to remove features from the project. It does not depend on the state. Instructions: `kit:workflow/06-goal-change.md`. If the user asks to change the goal or the scope without the argument, also use this action.
 
@@ -74,4 +74,5 @@ If the user named the action (an argument, or a request such as "run the plan ac
 ## 3. After the action
 1. Update the "Progress" table in the plan, if the action changed the progress.
 2. Commit, if the "Commits" field permits it.
-3. Tell the user the next action. Recommend `/clear` and then `/refactor-kit`. Reason: each action works best with a small, clean context. In the coordination mode "relay agent", ask the user to start the next action in this session instead (`kit:workflow/parallel.md`, section C).
+3. Show the progress report, if `kit:workflow/progress.md`, section "When to show the report", selects this action.
+4. Tell the user the next action. Recommend `/clear` and then `/refactor-kit`. Reason: each action works best with a small, clean context. In the coordination mode "relay agent", ask the user to start the next action in this session instead (`kit:workflow/parallel.md`, section C).

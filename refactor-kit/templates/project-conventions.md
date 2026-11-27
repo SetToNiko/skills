@@ -24,6 +24,7 @@ description: Gives the stack, commands, refactor settings, coding rules, and doc
 - Step size (a guideline): {{STEP_SIZE}} files or fewer. Not counted: a pure move (`git mv`), new test-data files, files whose only change is an access path. An atomic step can be larger.
 - Execution mode: {{MODE: one of these values. "sequential". "parallel waves, {{MAX_PARALLEL}} steps or fewer in each wave". "parallel waves, dynamic maximum" (the coordinator selects the number for each wave).}}
 {{COORDINATION_LINE: in parallel mode only. "- Coordination: session" (the kit session is the coordinator) OR "- Coordination: relay agent" (a `coordinator` agent does each action, and the kit session relays its requests). In sequential mode, remove this line.}}
+{{PROGRESS_LINE: in sequential mode only. "- Progress report: every {{N}} steps" (default 2, `kit:workflow/progress.md`). In parallel mode, remove this line: the report shows at each phase change.}}
 
 ## Audience: {{AUDIENCE_NAME}}
 {{AUDIENCE_SUMMARY: 3 to 6 lines. The reader, the audience test, and the most important rules of the profile.}}

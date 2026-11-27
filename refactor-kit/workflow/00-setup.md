@@ -234,6 +234,7 @@ Show the table, or only the changed rows if an old file exists. Get approval.
 | `.claude/agents/reviewer.md` | `kit:templates/agents/reviewer.md` |
 | `.claude/agents/docs.md` | `kit:templates/agents/docs.md` (only if the user selected documentation) |
 | `.claude/agents/simplifier.md` | `kit:templates/agents/simplifier.md` (only if the user selected it) |
+| `<refactor folder>/scripts/progress.sh` | `kit:templates/scripts/progress.sh` (the progress report, `kit:workflow/progress.md`). Replace `{{REFACTOR_FOLDER}}`. Run `chmod +x`. |
 
 In parallel mode, also write the files of `kit:workflow/parallel.md`, section S, part 7.
 
