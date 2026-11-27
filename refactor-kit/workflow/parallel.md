@@ -32,7 +32,7 @@ In this mode, the kit session does not do the work of the coordinator. It starts
 **Relay the requests.** The coordinator stops at each request. Do the request, then continue the coordinator with SendMessage.
 - **`REQUEST AGENT`:** start each agent with the given type and the exact instruction. Start all agents of one block in ONE message. Keep a list of the label and the agent ID of each agent. Send each reply to the coordinator without changes, with its label.
 - **`REQUEST CONTINUE`:** send the exact message to the agent of the label. Send the reply to the coordinator without changes.
-- **`REQUEST USER`:** ask the questions with AskUserQuestion. Keep the text and the order of the options. If the block has facts outside the questions, put them, without changes, at the start of the first question. Send the answers to the coordinator without changes.
+- **`REQUEST USER`:** if the PushNotification tool is available, send a push notification first. Name the action and the number of questions, in one line. Then ask the questions with AskUserQuestion. Keep the text and the order of the options. If the block has facts outside the questions, put them, without changes, at the start of the first question. Send the answers to the coordinator without changes.
 - **`ACTION DONE`:** show the summary to the user. Then do `kit:SKILL.md`, section 3, but do not recommend `/clear`.
 
 **Rules for the relay.**
