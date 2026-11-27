@@ -35,7 +35,12 @@ for step in "$@"; do
   if [ "$has_uncommitted" = "no" ] && git merge-base --is-ancestor "$branch" "$INTEGRATION_BRANCH"; then
     if [ -d "$path" ]; then git worktree remove "$path"; fi
     git branch --quiet -d "$branch"
-    echo "$step: removed (merged)"
+    # A branch with no commits is also an ancestor. Only a merge commit shows a real merge.
+    if git log --format=%s "$INTEGRATION_BRANCH" | grep -q -F "Merge $step: "; then
+      echo "$step: removed (merged)"
+    else
+      echo "$step: removed (no changes, nothing was merged)"
+    fi
   elif [ "$force" = "yes" ]; then
     if [ -d "$path" ]; then git worktree remove --force "$path"; fi
     git branch --quiet -D "$branch"
