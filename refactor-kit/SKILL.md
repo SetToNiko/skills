@@ -75,4 +75,4 @@ If the user named the action (an argument, or a request such as "run the plan ac
 1. Update the "Progress" table in the plan, if the action changed the progress.
 2. Commit, if the "Commits" field permits it.
 3. Show the progress report, if `kit:workflow/progress.md`, section "When to show the report", selects this action.
-4. Tell the user the next action. Recommend `/clear` and then `/refactor-kit`. Reason: each action works best with a small, clean context. In the coordination mode "relay agent", ask the user to start the next action in this session instead (`kit:workflow/parallel.md`, section C).
+4. Tell the user the next action. Recommend `/clear` and then `/refactor-kit`. Reason: each action works best with a small, clean context. In the coordination mode "relay agent", start the next action in this session instead (`kit:workflow/parallel.md`, section C). The field "Auto-continue" selects if you ask first.

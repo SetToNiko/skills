@@ -37,13 +37,14 @@ In this mode, the kit session does not do the work of the coordinator. It starts
 - **`ACTION DONE`:** show the summary to the user. Then do `kit:SKILL.md`, section 3, but do not recommend `/clear`.
 
 **Rules for the relay.**
+- **What the user sees.** Show the user only these items: the step board and the full report, the summary of each `ACTION DONE`, the questions of a `REQUEST USER`, and blockers. Do not tell the user that you sent a request, a reply, or an answer. Relay these in silence.
 - Never answer a `REQUEST USER` yourself, also when the answer looks clear. Only the user decides.
 - Never change the text of a request, a reply, or an answer. Add only the label.
 - Do not do the work of the coordinator: no wave scripts, no checks, no plan changes. Read the project only if the user asks a question.
 - If a request does not follow the format of `kit:templates/agents/coordinator.md`, send the coordinator a message: give the problem and ask again.
 - **`WAITING`:** do nothing now. Send each reply of the named labels to the coordinator when it comes.
 - If the coordinator stops without a request block, without `WAITING`, and without `ACTION DONE`, continue it with "Continue the action. Reply with a request block, `WAITING`, or `ACTION DONE`."
-- After `ACTION DONE`, ask the user to start the next action. Start a NEW coordinator for it. Do not continue the old coordinator: its context holds the old action.
+- After `ACTION DONE`, start the next action. If the field "Auto-continue" of the project-conventions skill is "yes", start it at once, without a question, unless a user decision is open. Otherwise, ask the user to start it. Start a NEW coordinator for it. Do not continue the old coordinator: its context holds the old action.
 - Recommend `/clear` only when the context of the kit session is large, for example after each phase review.
 
 ---
