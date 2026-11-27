@@ -39,8 +39,11 @@ If you use a technique that the audience possibly does not know, do these three 
 
 If a simpler method gives approximately the same benefit, use the simpler method.
 
+Group the code by purpose. Put the lines that do one task together, with one empty line between two groups. Put related items next to each other in a file.
+
 ## Exceptions to guideline limits
 The project-conventions skill gives the limits, their kinds, and the exception markers.
+- A line limit counts lines of code only. Empty lines and comment lines do not count. Never remove an empty line or a comment to get under a limit.
 - If code that you write or change is over a guideline limit, first try to make it shorter or simpler. If that makes it harder to read, keep it and add the reason comment of the skill directly above it.
 - The reason must be true and specific. Example: "one match over all 14 key actions". A reason such as "complex logic" is not sufficient.
 - If a lint also reports the exception, use the exception syntax of the skill, with the reason.

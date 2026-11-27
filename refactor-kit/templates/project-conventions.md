@@ -29,6 +29,7 @@ description: Gives the stack, commands, refactor settings, coding rules, and doc
 
 ## Rules
 {{RULES_SUMMARY: 25 lines or fewer. A short version of the targets, limits (with their kinds), the exception markers, the priority, and the project rules in PRINCIPLES.md.}}
+- Line limits count lines of code only: no empty lines, no comment lines (doc comments too). Group the code by purpose, with one empty line between two groups.
 
 ## Language rules
 {{LANGUAGE_RULES: from the language profile, approved in setup part 5. The lint groups and policy, the exception syntax, and the measure notes. 8 lines or fewer for each language.}}

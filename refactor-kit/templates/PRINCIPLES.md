@@ -20,6 +20,8 @@ These principles set HOW the refactor writes the code. `GOAL.md` sets WHAT the r
 |---|---|---|---|
 {{LIMIT_ROWS: one row for each limit. Kind: hard or guideline.}}
 
+Each line limit counts lines of code only. Empty lines and comment lines (doc comments too) do not count. A line with code and a comment counts as one line. Use empty lines and comments to group the code by purpose: a limit is never a reason to remove them.
+
 ### Verified exceptions
 
 {{EXCEPTIONS: copy Part E of the catalog if a limit is a guideline or a lint permits exceptions. Use the marker name that the user approved. Otherwise write "None. All limits are hard."}}

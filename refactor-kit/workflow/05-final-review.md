@@ -31,7 +31,7 @@ Back to `kit:SKILL.md`.
 7. **Contributor guide.** Write `CONTRIBUTING.md` at the project root from `kit:templates/CONTRIBUTING.md`. A contributor skill reads this file to plan parallel work, so each statement must be true for the code now. If a `CONTRIBUTING.md` exists, read the section "Contributor guide" of GOAL.md first. Write the new guide from the code. Keep each setting that the user did not apply in the setup (part 2b), if it is still true for the code. Then show the user each setting that changed, as a short list of old and new values. Ask for approval before you replace the file.
    - **Commands and gates (sections 1 and 2):** read the gates from the CI configuration or the check command of the project. Examples: the `flake.nix` checks, a CI workflow, a `Makefile`. One row for each gate. Run the command of each gate one time. Write only the gates that pass now.
    - **Review rules (section 3):** copy each rule from `<refactor folder>/PRINCIPLES.md` and the project-conventions skill. Include these rules:
-     - the architecture rules, and the size limits with their kinds
+     - the architecture rules, and the size limits with their kinds. Include the line-count definition (lines of code only, catalog Part C) and the command or gate that counts them.
      - the long-function rule, with the verified marker
      - the comment and documentation rules, the code rules, and the test rules
      - the commit rules: atomic steps, change groups, and commit tags

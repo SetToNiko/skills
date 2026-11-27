@@ -147,7 +147,7 @@ Catalog: `kit:catalog/principles.md`. Template: `kit:templates/PRINCIPLES.md`.
    If the catalog has more than 3 optional modules, put the 3 that fit best in the question. Name the others in the question text.
    **Removed targets.** If the user removes a target that you recommended, or a target that the scan shows as relevant, ask for the reason. Offer to add the target to the out-of-scope list in GOAL.md with that reason. Example: "Security hardening: before a public release, not in this refactor."
 3. **Priority.** Show the default priority order of the catalog, with the selected optional modules in it. Ask if the order fits this project.
-4. **Limits.** Measure each limit in the code first. Example: count the functions and files over the default limit. Show a table: the limit, the default, the measured value, and your proposal. For each limit, propose:
+4. **Limits.** Measure each limit in the code first. Count lines of code, not all lines (the catalog, Part C). Example: count the functions and files over the default limit. Show a table: the limit, the default, the measured value, and your proposal. For each limit, propose:
    - a **value**
    - a **kind**: hard, or guideline (refer to the catalog, Part C)
    - a **later target**, if the code is far over the default. Example: files 500 lines now, 300 later.

@@ -37,7 +37,7 @@ Example comment for an advanced technique: `// Trait object: each app integratio
 - Format: `cargo fmt --check`
 - Policy if the code has many warnings today: ratchet to zero (recommended). The functions that a step writes or changes have no warnings, and the total never increases. A late phase makes whole files clean. (Do not ask each step to clean whole files: a one-line change in a file with 50 warnings becomes a large step.)
 - The count script must give 0 when the tool reports nothing. Many tools print no summary line when there are no warnings, and a `grep` for that line then fails. With `set -o pipefail`, for example in a Nix build, the check fails at the exact moment that the count reaches zero. Test the script with a clean file before the ratchet starts.
-- Add a gate for each limit of Part C, not only for the lints. Example: a script that fails when a file has more than the file limit of production lines. Without a gate, later steps add helpers and doc comments, and files grow over the limit again. The final review then finds them.
+- Add a gate for each limit of Part C, not only for the lints. Example: a script that fails when a file has more than the file limit of production lines of code. It counts as Part C says: no empty lines, no comment lines. Without a gate, later steps add helpers and doc comments, and files grow over the limit again. The final review then finds them.
 - In a binary crate, clippy does not check `missing_errors_doc` and `missing_panics_doc`: these lints check only the public interface of a library. If the project requires `# Errors` sections, add a small check script for them, or the final review finds them missing.
 
 **Documentation style (default: strict rustdoc).**
@@ -59,7 +59,8 @@ Example comment for an advanced technique: `// Trait object: each app integratio
 - `cargo test` captures the output of passing tests. To count printed lines (for example "skipped:"), run `cargo test -- --nocapture`.
 - Count ignored tests in the "test result" line: `N ignored`.
 - `cargo clippy` must use the clippy of the project toolchain. A system clippy for a different rustc fails with error E0514 ("compiled by an incompatible version of rustc"). Then the tool is not available. Phase 0 adds clippy to the toolchain or the dev shell.
-- Function length and complexity: `lizard -l rust` (Python package `lizard`).
+- Function length and complexity: `lizard -l rust` (Python package `lizard`). Use the NLOC column: it counts lines of code without empty lines and comments. The `length` column counts all lines.
+- File length in lines of code: `tokei <file>` (the Code column). A script also works: skip empty lines, lines that start with `//`, and the lines of `/* ... */` blocks.
 - Dependency cycles between modules: `cargo modules dependencies --acyclic` sees only `use` statements, not inline paths such as `crate::hit::HitMap`, and it stops at the first cycle. Count the cycles with a small script: read `crate::<module>` in the production code of each file (before `#[cfg(test)]`) and count the strongly connected groups. Keep the script in the project, so later ratchets use the same method. Name each module by its full module path (`app/state/nav.rs` is `app::state::nav`, `mod.rs` takes its folder path), and read subfolders too. A reference counts for the longest known module path that it starts with. Do not count visibility paths such as `pub(in crate::app)`: they are not dependencies. Then two files with the same name stay apart, and a move into a folder does not add false cycles.
 - Coverage: `cargo llvm-cov --summary-only`. It needs the `llvm-cov` and `llvm-profdata` of the LLVM that rustc uses. In a Nix dev shell: `LLVM_COV = "${pkgs.rustc.llvm}/bin/llvm-cov"` and `LLVM_PROFDATA` in the same way.
 - Duplicates: `lizard -Eduplicate` (jscpd is not always packaged).
@@ -84,7 +85,7 @@ Example comment for an advanced technique: `// Trait object: each app integratio
 
 **Measure notes.**
 - `set -euo pipefail` changes behavior. Adding it is a plan step with golden-file tests, not a convention.
-- Function length: `lizard -l bash`.
+- Function length: `lizard -l bash` (the NLOC column). File length: `tokei <file>` (the Code column). A script skips empty lines and lines that start with `#`, but not the `#!` line.
 
 **Golden-file tests for scripts.** Characterization tests for scripts that write config files and start programs:
 - Run each case in a temporary HOME, with copies of the fixture data. Compare the files under HOME, a log of the stub calls, stderr, and the exit code with golden files (`diff -r`). A `--update` mode writes the golden files from the unchanged scripts.

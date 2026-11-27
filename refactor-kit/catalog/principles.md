@@ -102,7 +102,8 @@ Move *variation* out of the code and into *data*.
 ## T3: Readability (default)
 
 - Names tell *what* and *why*, not *how*. Example: `calculateDamage`, not `doCalc2`.
-- Each function does one thing. Limit: `{{MAX_FUNCTION_LINES}}` lines.
+- Each function does one thing. Limit: `{{MAX_FUNCTION_LINES}}` lines of code (Part C).
+- **Group the code by purpose.** Put the lines that do one task together, and put one empty line between two groups. In a file, put related items next to each other, for example a type and then its functions. A short comment above a group can give its purpose. Empty lines and comments do not count toward a line limit (Part C), so a limit is never a reason to remove them.
 - Shallow nesting: use early returns and guard clauses. Limit: `{{MAX_NESTING}}` levels.
 - No magic numbers or strings: use named constants or data.
 - Comments tell *why*. The code tells *what*. Remove commented-out code.
@@ -111,7 +112,7 @@ Move *variation* out of the code and into *data*.
 ## T4: Maintainability (default)
 
 - **DRY, but not too early.** Extract duplicate code at the third occurrence, or when the copies must change together.
-- **Small units.** Limit: files of `{{MAX_FILE_LINES}}` lines or fewer.
+- **Small units.** Limit: files of `{{MAX_FILE_LINES}}` lines of code or fewer (Part C).
 - **Low coupling, high cohesion.** Related code is in the same location. Modules communicate through narrow interfaces.
 - **Testability.** You can test logic without a UI, network, or database.
 - **No dead code.** Remove unused functions, flags, and parameters.
@@ -167,12 +168,18 @@ A limit can also have a **later target**. Use it when the code is far over the d
 | Limit | Default value | Default kind | Placeholder |
 |---|---|---|---|
 | Jumps of indirection to understand one behavior | 3 | hard | `{{MAX_JUMPS}}` |
-| Lines in one function | 30 | guideline | `{{MAX_FUNCTION_LINES}}` |
+| Lines of code in one function | 30 | guideline | `{{MAX_FUNCTION_LINES}}` |
 | Levels of nesting | 3 | hard | `{{MAX_NESTING}}` |
-| Lines in one file | 300 | hard | `{{MAX_FILE_LINES}}` |
+| Lines of code in one file | 300 | hard | `{{MAX_FILE_LINES}}` |
 | Slowdown of a hot path (T8 only) | 5% | hard | `{{MAX_SLOWDOWN}}` |
 
-Function length counts the lines of the body, between the braces (as clippy's `too_many_lines` counts), not the signature and the closing brace.
+**Lines of code (the definition for each line limit).** A line limit counts only lines of code. A line of code is a line that has code on it. These lines do not count:
+- empty lines, and lines with only spaces or tabs
+- lines with only a comment: line comments, doc comments (for example `//`, `///`, `//!`, `#`), and each line of a block comment
+
+A line with code and a comment at its end counts as one line of code. Function length counts the lines of code in the body, between the braces. It does not count the signature or the closing brace. (clippy's `too_many_lines` also ignores empty lines and comments.)
+
+Empty lines and comments are free, so a limit is never a reason to remove them. Use them to group the code by purpose (T3). Measure with a tool that counts lines of code, for example `lizard` (the NLOC column) or `tokei` (the Code column). The language profiles give the commands.
 
 When a module text says "Limit: `{{...}}`", write the kind with the value. Examples:
 - hard: "Limit: 4 levels."

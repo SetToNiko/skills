@@ -57,8 +57,8 @@ This section measures the goal directly. Give it the highest weight.
 | Criterion | Typical threshold | Baseline | Target | Result |
 |---|---|---|---|---|
 | Maximum cyclomatic complexity for each function. Tools: lizard, radon, or the eslint rule `complexity`. | 10 or less | | | |
-| Function length. | Approximately 30 lines or fewer | | | |
-| File length. | Approximately 300 lines or fewer | | | |
+| Function length, in lines of code (no empty lines, no comment lines). Tools: lizard (NLOC). | Approximately 30 lines of code or fewer | | | |
+| File length, in lines of code. Tools: tokei (Code), lizard (NLOC). | Approximately 300 lines of code or fewer | | | |
 | Nesting depth. | 3 or less | | | |
 | Duplicate code. Tools: jscpd or PMD CPD. | Less than the baseline | | | |
 | Linter warnings and dead code. Tools: vulture, ts-prune, or detekt. | No new warnings. Less than the baseline is better. | | | |

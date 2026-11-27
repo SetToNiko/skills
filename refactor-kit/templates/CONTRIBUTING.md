@@ -42,6 +42,8 @@ A reviewer checks these rules. No command checks them.
 |---|---|---|---|
 | {{ITEM}} | {{LIMIT}} | {{hard or guideline}} | {{EXCEPTION_RULE}} |
 
+Each line limit counts lines of code only. Empty lines and comment lines (doc comments too) do not count. A line with code and a comment counts as one line. {{LINE_COUNT_TOOL: the command or gate that counts lines of code}}
+
 ### Long functions
 {{LONG_FUNCTIONS: the guideline, the reason comment, the verified form `<verified marker of the project>`, and when a reviewer checks a verified marker again}}
 
