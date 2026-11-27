@@ -105,7 +105,7 @@ Replace the placeholders in the scripts: `{{TEST_CMD}}`, `{{REFACTOR_FOLDER}}`, 
 
 1. Read the plan. Find the lowest wave number that has unchecked steps. These steps are the wave. If `MAX_PARALLEL` is `0` (dynamic), select the number of agents for this wave (`kit:reference/parallel-rules.md`, section 2, "Dynamic maximum"). Show the wave to the user in 3 lines or fewer, with the number of agents and its reason. Ask to continue.
 2. Run `<refactor folder>/scripts/wave-start.sh <step IDs>`. If the script prints an error, show it to the user and stop. Do not change the plan to remove the error without approval.
-3. Start one `refactorer` agent for each step, all in ONE message. Give each agent: "Do step <ID> of `<refactor folder>/PLAN.md`. Your worktree: `<path>`."
+3. Start one `refactorer` agent for each step, all in ONE message. Give each agent: "Do step <ID> of `<refactor folder>/PLAN.md`. Your worktree: `<path>`. Your scratch folder: `<scratch>/<ID>/`."
 4. When a refactorer replies DONE, start the simplifier for that step at once, if the Simplify setting selects one. Give it: "Simplify the uncommitted changes in the worktree `<path>`." Do not wait for the other refactorers.
 5. Wait for all agents. Do not merge a step whose refactorer replied BLOCKED or NEEDS. Then do these actions:
    - **NEEDS, for a file outside `Owns`:** if no other open step owns the file, release it to the step. Tell the agent to continue (`kit:reference/parallel-rules.md`, section 3). Otherwise, make a later step.

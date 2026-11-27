@@ -52,4 +52,5 @@ description: Gives the stack, commands, refactor settings, coding rules, and doc
 - Change only the files that your step lists in `Owns:`.
 - Never edit the plan. Never commit. Never change other branches.
 - Tests run in other worktrees at the same time. Use no fixed ports, fixed temporary paths, or shared databases.
+- Your own files (scripts, logs, diffs, command output) go only into your own scratch folder. The instruction gives it, for example `<scratch>/<step ID>/`. If it does not, make one with `mktemp -d`. Never write into a folder that other agents use. Never run a script that you did not write.
 - Wave scripts: `{{REFACTOR_FOLDER}}scripts/wave-start.sh`, `wave-merge.sh`, `wave-clean.sh`. Only the coordinator runs them.

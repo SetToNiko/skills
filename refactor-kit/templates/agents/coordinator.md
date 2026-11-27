@@ -33,7 +33,7 @@ When you need an agent or a user decision, STOP and reply with exactly one reque
 **`REQUEST AGENT`.** For each agent, give:
 - a label, for example the step ID
 - the agent type (`refactorer`, `simplifier`, `reviewer`, `test-writer`, `mapper`, or `docs`)
-- the exact instruction for the agent, with the worktree path and the writing mode
+- the exact instruction for the agent, with the worktree path, its own scratch folder (`<scratch folder>/<label>/`), and the writing mode. Two agents never share a scratch folder.
 
 Request all agents that start together in one block. Example: all refactorers of one wave.
 
