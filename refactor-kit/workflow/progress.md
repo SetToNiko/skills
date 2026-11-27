@@ -12,6 +12,7 @@ The script `<refactor folder>/scripts/progress.sh` makes the report from the pla
 - The percent of a phase: checked steps / all steps of the phase.
 - A wave is done when all of its steps are checked. Sequential mode has no waves. The column shows "-".
 - The current phase: the first phase that is not done. A phase is done when all of its steps are checked and its review is done or skipped.
+- The first wave of a phase: the wave that starts when no step of the phase is checked. Check this in the plan. Do not use the text of a request. A later wave can be the lowest open wave, but it is not the first wave.
 - The column InProgress: the steps in the argument `--active`. In parallel mode, the script also adds each open step that has a worktree.
 
 ## When to show the report
