@@ -32,7 +32,7 @@ Start all agents of a wave in ONE message. Agents that start in one message run 
 | `.claude/agents/mapper.md` | `kit:templates/agents/mapper.md` |
 | `.claude/agents/test-writer.md` | `kit:templates/agents/test-writer.md` |
 
-Replace the placeholders in the scripts: `{{TEST_CMD}}`, `{{REFACTOR_FOLDER}}`, `{{BRANCH}}`, `{{MAX_PARALLEL}}`. Run `chmod +x <refactor folder>/scripts/*.sh`. Include `<refactor folder>/scripts` in the placeholder check of part 7.
+Replace the placeholders in the scripts: `{{TEST_CMD}}`, `{{REFACTOR_FOLDER}}`, `{{BRANCH}}`, `{{MAX_PARALLEL}}`. `{{TEST_CMD}}` is the command that runs all gates, for example `nix flake check`. Do not add `git add` to it: `wave-merge.sh` records the new files of a worktree before it runs the tests. Run `chmod +x <refactor folder>/scripts/*.sh`. Include `<refactor folder>/scripts` in the placeholder check of part 7.
 
 ---
 
