@@ -111,7 +111,7 @@ Replace the placeholders in the scripts: `{{TEST_CMD}}`, `{{REFACTOR_FOLDER}}`, 
    - **NEEDS, for a file outside `Owns`:** if no other open step owns the file, release it to the step. Tell the agent to continue (`kit:reference/parallel-rules.md`, section 3). Otherwise, make a later step.
    - **PARTIAL:** merge the part that is done, if all checks pass. Make a new step for the rest (section 7 of the rules).
    - **An agent that stopped because the session ended:** continue it with SendMessage (section 7 of the rules).
-6. Run `<refactor folder>/scripts/wave-merge.sh <the other step IDs, in plan order>`. Each step becomes one commit on its branch and one merge, so each step stays atomic: one revert of its merge commit (`git revert -m 1`) undoes it. The script can skip a step because of a conflict only in import lines, `mod` lines, or a list of tests. Then merge that step by hand (`kit:reference/parallel-rules.md`, section 6). Run all gates after the merge, and decide by the exit code.
+6. Run `<refactor folder>/scripts/wave-merge.sh <the other step IDs, in plan order>`. If the session has commit trailers, give them in the variable `COMMIT_TRAILERS` (one trailer on each line). Each step becomes one commit on its branch and one merge, so each step stays atomic: one revert of its merge commit (`git revert -m 1`) undoes it. The script can skip a step because of a conflict only in import lines, `mod` lines, or a list of tests. Then merge that step by hand (`kit:reference/parallel-rules.md`, section 6). Run all gates after the merge, and decide by the exit code.
 7. Update the plan:
    - Add the new findings of the agent replies to section 4.
    - For each NEEDS reply, propose a new step in a later wave. Add it after approval.

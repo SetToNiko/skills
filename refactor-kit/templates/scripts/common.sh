@@ -99,3 +99,15 @@ step_owns_file() {
   done < <(step_owns "$step")
   return 1
 }
+
+# Prints a commit message: the subject, then the commit trailers of the session.
+# The caller gives the trailers in the variable COMMIT_TRAILERS, one trailer on each line.
+# Example: COMMIT_TRAILERS=$'Co-Authored-By: Name <mail>' wave-merge.sh P2.1
+# If COMMIT_TRAILERS is empty, the message is only the subject.
+commit_message() {
+  if [ -n "${COMMIT_TRAILERS:-}" ]; then
+    printf '%s\n\n%s\n' "$1" "$COMMIT_TRAILERS"
+  else
+    printf '%s\n' "$1"
+  fi
+}

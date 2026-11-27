@@ -2,6 +2,7 @@
 # Merges the steps of a wave into the integration branch, one step at a time.
 #
 # Usage: {{REFACTOR_FOLDER}}scripts/wave-merge.sh P2.1 P2.2 P2.3
+# The variable COMMIT_TRAILERS adds trailers to each commit (see commit_message in common.sh).
 #
 # For each step, in the order that you give:
 #   a. Runs the tests in the worktree of the step. Then commits the changes of the step.
@@ -54,7 +55,7 @@ for step in "$@"; do
   fi
   if [ -n "$(git -C "$path" status --porcelain)" ]; then
     git -C "$path" add -A
-    git -C "$path" commit --quiet -m "Refactor: $step $title"
+    git -C "$path" commit --quiet -m "$(commit_message "Refactor: $step $title")"
   fi
 
   base="$(git merge-base "$INTEGRATION_BRANCH" "$branch")"
@@ -72,7 +73,7 @@ for step in "$@"; do
   fi
 
   # c. Merge.
-  if ! git merge --quiet --no-ff -m "Merge $step: $title" "$branch" >> "$log" 2>&1; then
+  if ! git merge --quiet --no-ff -m "$(commit_message "Merge $step: $title")" "$branch" >> "$log" 2>&1; then
     git merge --abort
     skip_step "$step" "merge conflict. Run the step again on the new integration branch."
     continue
@@ -88,7 +89,7 @@ for step in "$@"; do
 
   # e. Mark the step as done.
   sed -i "s/^- \[ \] $(step_regex "$step") /- [x] $step /" "$PLAN_FILE"
-  git commit --quiet -am "Plan: mark $step as done"
+  git commit --quiet -am "$(commit_message "Plan: mark $step as done")"
   merged+=("$step")
   echo "  MERGED"
 done
