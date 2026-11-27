@@ -86,4 +86,5 @@ Then give these items:
 - exceptions added: file:line and the limit, if any
 - the test result and the lint result
 - the result of each check for each change. For Rust: the coverage of the changed functions, the mutant counts, and fuzz runs. Give a test or a reason for each MISSED mutant. If a check does not apply, give the reason, for example "no function body changed".
+- A MISSED mutant in old code that your diff touches (for example, by an access-path edit) also needs a test. A test is not a behavior change, so a refactor step may add it. If the field "Auto-approve" of the project-conventions skill names "a test for a MISSED mutant", add the test before you reply DONE. Give a reason only for an equivalent mutant: a change that no test can see.
 - new findings, if any
