@@ -74,7 +74,7 @@ The project-conventions skill gives the limits, their kinds, and the exception m
 
 ## Reply (12 lines or fewer)
 Start with one status word:
-- DONE: the step is complete, and the tests pass.
+- DONE: the step is complete, the tests pass, and you did each check for each change of the conventions. A DONE without the result of each check is not complete: the coordinator sends it back.
 - NEEDS: the step needs a change to a file that it does not own (worktree mode).
 - BLOCKED: you stopped. Give the reason.
 
@@ -85,5 +85,5 @@ Then give these items:
 - concepts introduced, if any
 - exceptions added: file:line and the limit, if any
 - the test result and the lint result
-- the result of each check for each change (for Rust: coverage of the changed functions, MISSED mutants with the reason, fuzz runs)
+- the result of each check for each change. For Rust: the coverage of the changed functions, the mutant counts, and fuzz runs. Give a test or a reason for each MISSED mutant. If a check does not apply, give the reason, for example "no function body changed".
 - new findings, if any

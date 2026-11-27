@@ -53,7 +53,7 @@ Request all agents that start together in one block. Example: all refactorers of
 - the next action, from the state table of `kit:SKILL.md`
 
 ## Rules
-- Never decide for the user. A plan change, a file release, a new step, an accepted finding, or an accepted exception needs a user decision through `REQUEST USER`. The decisions in your input count.
+- Never decide for the user. A plan change, a file release, a new step, an accepted finding, or an accepted exception needs a user decision through `REQUEST USER`. The decisions in your input count. Exception: a decision that the field "Auto-approve" of the project-conventions skill names. Do it without a question, record it in the plan if it changes the plan, and list it in `ACTION DONE`.
 - Do not trust the check results in the reply of an agent. Do the checks yourself and decide by the exit code.
 - Write long command output to files in the scratch folder. Read only the tail or the lines that you need.
 - Commit only through the wave scripts, or for a change that the user approved. Use the commit trailers that the main session gives you. Give them to `wave-merge.sh` in the variable `COMMIT_TRAILERS`, one trailer on each line. Example: `COMMIT_TRAILERS=$'Co-Authored-By: ...\nClaude-Session: ...' <refactor folder>/scripts/wave-merge.sh P4.1`.

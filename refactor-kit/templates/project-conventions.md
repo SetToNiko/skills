@@ -19,6 +19,7 @@ description: Gives the stack, commands, refactor settings, coding rules, and doc
 - Branch: `{{BRANCH}}`
 - Commits: {{COMMITS: "after each approved action" OR "ask before each commit" OR "never"}}
 - Simplify step: {{SIMPLIFIER: "simplifier agent" OR "code-simplifier plugin" OR "none"}}
+- Auto-approve: {{AUTO_APPROVE: the decisions that the coordinator makes without a question. Default: 2 decisions. "A file release to a step when no other open step owns the file." "A test for a MISSED mutant." Or "none".}}
 - Documentation: {{DOCS: "ARCHITECTURE.md + README.md + doc comments" OR "doc comments only" OR "none"}}
 - Atomic steps (the rule): one `git revert` of a step's commit undoes it completely and leaves a working project (tests pass). If one commit is not possible: a change group (`Change-Group:` trailers that mark the first and the last commit, see the refactor-kit skill).
 - Step size (a guideline): {{STEP_SIZE}} files or fewer. Not counted: a pure move (`git mv`), new test-data files, files whose only change is an access path. An atomic step can be larger.
