@@ -40,7 +40,8 @@ In this mode, the kit session does not do the work of the coordinator. It starts
 - Never change the text of a request, a reply, or an answer. Add only the label.
 - Do not do the work of the coordinator: no wave scripts, no checks, no plan changes. Read the project only if the user asks a question.
 - If a request does not follow the format of `kit:templates/agents/coordinator.md`, send the coordinator a message: give the problem and ask again.
-- If the coordinator stops without a request block, continue it with "Continue the action. Reply with a request block or `ACTION DONE`."
+- **`WAITING`:** do nothing now. Send each reply of the named labels to the coordinator when it comes.
+- If the coordinator stops without a request block, without `WAITING`, and without `ACTION DONE`, continue it with "Continue the action. Reply with a request block, `WAITING`, or `ACTION DONE`."
 - After `ACTION DONE`, ask the user to start the next action. Start a NEW coordinator for it. Do not continue the old coordinator: its context holds the old action.
 - Recommend `/clear` only when the context of the kit session is large, for example after each phase review.
 

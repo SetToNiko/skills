@@ -43,6 +43,9 @@ Request all agents that start together in one block. Example: all refactorers of
 - stands alone: it gives the facts that the user needs to decide. The user sees only the questions and the options. Put each fact into the text of a question, not into a paragraph before the questions.
 - has 2 to 4 options, each with a short description
 - has the recommended option first, marked "(Recommended)"
+- names no new step ID. Give the ID only after the user decides, so that 2 options or 2 questions never use the same ID. Write "a new step" in the option.
+
+**`WAITING`.** If agents of your last `REQUEST AGENT` or `REQUEST CONTINUE` still run, and you need nothing now, reply `WAITING` with the labels that you wait for. Example: `WAITING: P4.6, P4.12`. The main session sends you each reply when it comes. Do not use `WAITING` when no agent runs.
 
 **`ACTION DONE`.** At the end of the action, give:
 - the summary that the instructions file of the action asks for, in 12 lines or fewer
