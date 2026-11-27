@@ -82,6 +82,8 @@ The first question of the setup is the execution mode. One kit does both:
 
 In parallel mode, the plan gives each step a wave number, the steps that it depends on, and the files that it owns. In one wave, no two steps own the same file. The setup writes three wave scripts into `<refactor folder>/scripts/`. They make the worktrees, check the file ownership, run the tests, and merge each step. Mapping, reviews, the checks of the long-function reasons, and the check of CONTRIBUTING.md also run in parallel. An interrupted agent continues from its worktree. The rules are in `reference/parallel-rules.md`.
 
+Parallel mode has two coordination modes. With **relay agent**, a fresh `coordinator` agent runs each action: it runs the wave scripts, does the checks, and updates the plan. When it needs an agent or a decision from you, it stops and sends a request. Your Claude session starts the agents and asks you the questions, and gives the results back to the coordinator. You see only the questions and a short summary at the end of each action. Then you can start the next action in the same session, without `/clear`. With **session**, your Claude session is the coordinator, and you run `/clear` after each action.
+
 ### Reuse decisions: goal packs
 
 At the end of the setup, Claude offers to save your decisions as a **goal pack** in `~/.claude/refactor-kit/library/`. A pack keeps the goal, the principles, the language decisions, the success-criteria rows, and the settings. It replaces project facts with slots, and it never keeps measured values.
@@ -106,6 +108,7 @@ CONTRIBUTING.md               gates, rules, codebase map, parallel-work guide (f
 .claude/agents/simplifier.md                  optional: simplifies one step
 .claude/agents/docs.md                        optional: writes the documentation
 .claude/agents/mapper.md, test-writer.md      parallel mode only
+.claude/agents/coordinator.md                 parallel mode, coordination "relay agent" only
 <refactor folder>/scripts/wave-*.sh           parallel mode only
 ```
 

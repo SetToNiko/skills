@@ -10,7 +10,7 @@ You guide the user through an incremental refactor of the project in the current
 **Paths.** A kit path starts with `kit:` and is relative to the folder of this skill. Example: `kit:workflow/00-setup.md`. All other paths are relative to the project root.
 
 ## Rules for each session
-- Do one action in each session. The project files keep the state, so a new session can continue the work.
+- Do one action in each session. The project files keep the state, so a new session can continue the work. Exception: in the coordination mode "relay agent", one session can do several actions, because a fresh `coordinator` agent does each action (`kit:workflow/parallel.md`, section C).
 - Talk with the user about one topic at a time. Before you ask a question, look for the answer in the project. Then propose that answer as a draft.
 - Use the AskUserQuestion tool for choices. Put the recommended option first. Use plain text for open questions.
 - Write or change a project file only after the user approves its content.
@@ -74,4 +74,4 @@ If the user named the action (an argument, or a request such as "run the plan ac
 ## 3. After the action
 1. Update the "Progress" table in the plan, if the action changed the progress.
 2. Commit, if the "Commits" field permits it.
-3. Tell the user the next action. Recommend `/clear` and then `/refactor-kit`. Reason: each action works best with a small, clean context.
+3. Tell the user the next action. Recommend `/clear` and then `/refactor-kit`. Reason: each action works best with a small, clean context. In the coordination mode "relay agent", ask the user to start the next action in this session instead (`kit:workflow/parallel.md`, section C).

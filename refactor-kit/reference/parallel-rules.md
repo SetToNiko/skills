@@ -8,7 +8,8 @@ These rules let several agents change one project at the same time without damag
 
 | Term | Meaning |
 |---|---|
-| **Coordinator** | The kit session. It starts the agents, runs the scripts, and is the only writer of the plan. |
+| **Coordinator** | The kit session, or in the coordination mode "relay agent" the `coordinator` agent. It runs the scripts and is the only writer of the plan. |
+| **Relay** | The kit session in the coordination mode "relay agent". It starts the agents that the coordinator requests, asks the user the questions of the coordinator, and gives the results to the coordinator (`kit:workflow/parallel.md`, section C). |
 | **Step** | One line in section 6 of the plan. One agent does one step. |
 | **Wave** | A group of steps that run in parallel. Each step has a `Wave:` number. |
 | **Owns** | The files and folders that a step can change. A folder entry ends with `/` and includes all files in the folder. |
@@ -107,7 +108,7 @@ Give the steps to `wave-merge.sh` in plan order. Then the result is the same eac
 
 - Each agent starts with an empty context and loads the plan and the project-conventions skill. Thus, N agents use approximately N times the tokens of one agent.
 - The coordinator receives one reply from each agent. Keep the replies short. Each agent file sets a line limit.
-- Do one wave in each session. The plan file and the git history keep the state.
+- Do one wave in each session. The plan file and the git history keep the state. Exception: in the coordination mode "relay agent", a fresh `coordinator` agent does each wave, and the kit session only relays (`kit:workflow/parallel.md`, section C).
 - Run `wave-clean.sh` after each wave. Old worktrees use disk space.
 - **An interrupted agent.** If a session ends while agents run, their worktrees keep the uncommitted work. In the next session, send each agent a message with SendMessage: "Continue the step. First run `git status` and the checks of the step, to see where you are." Do not start a new agent for the same step: it starts from zero.
 - **A partial result.** A large step can end with the reply PARTIAL: the agent stages what is done, and all checks pass. Merge the partial result. Make a new step for the rest.

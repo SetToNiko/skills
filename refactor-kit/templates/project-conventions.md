@@ -23,6 +23,7 @@ description: Gives the stack, commands, refactor settings, coding rules, and doc
 - Atomic steps (the rule): one `git revert` of a step's commit undoes it completely and leaves a working project (tests pass). If one commit is not possible: a change group (`Change-Group:` trailers that mark the first and the last commit, see the refactor-kit skill).
 - Step size (a guideline): {{STEP_SIZE}} files or fewer. Not counted: a pure move (`git mv`), new test-data files, files whose only change is an access path. An atomic step can be larger.
 - Execution mode: {{MODE: one of these values. "sequential". "parallel waves, {{MAX_PARALLEL}} steps or fewer in each wave". "parallel waves, dynamic maximum" (the coordinator selects the number for each wave).}}
+{{COORDINATION_LINE: in parallel mode only. "- Coordination: session" (the kit session is the coordinator) OR "- Coordination: relay agent" (a `coordinator` agent does each action, and the kit session relays its requests). In sequential mode, remove this line.}}
 
 ## Audience: {{AUDIENCE_NAME}}
 {{AUDIENCE_SUMMARY: 3 to 6 lines. The reader, the audience test, and the most important rules of the profile.}}

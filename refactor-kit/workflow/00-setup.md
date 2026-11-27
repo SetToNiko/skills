@@ -40,6 +40,11 @@ Keep the approved drafts in the conversation until part 7. Exception: if the use
    - **5 agents**
    - **3 agents**
    The user can type another number with "Other". Record the answer as `MAX_PARALLEL`: the number, or `0` for dynamic. The user can change it before any wave.
+
+   **The coordination mode (parallel only).** Then ask with AskUserQuestion: "Who coordinates each wave?"
+   - **Relay agent (Recommended):** a fresh `coordinator` agent (model opus) does each action. The kit session starts the agents that the coordinator requests, and asks you its questions. One session can do several actions, without `/clear` after each action. Rules: `kit:workflow/parallel.md`, section C.
+   - **Session:** the kit session is the coordinator. Do one action in each session, and `/clear` after each action.
+   Record the answer. It is the "Coordination" setting of part 5. The user can change it before any action.
 1. Run `git rev-parse --show-toplevel`. If the project is not a git repository, ask the user to make one. Offer to run `git init` and to commit the current files.
 2. **Old files.** Look for refactor files from an earlier kit version or from an earlier refactor: `REFACTOR_GOAL.md`, `REFACTOR_PLAN.md`, `SUCCESS_CRITERIA.md`, and files with "refactor" in the name in `docs/`. If you find one, read it. Then ask with AskUserQuestion:
    - **Use as drafts (Recommended):** the interview starts from their content. In part 7, their content moves to the new files, and the old files are removed.

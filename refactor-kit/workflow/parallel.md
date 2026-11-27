@@ -8,6 +8,42 @@ In parallel mode, several agents do the steps of one **wave** at the same time. 
 
 Start all agents of a wave in ONE message. Agents that start in one message run in parallel.
 
+**Coordination mode.** The project-conventions skill gives the Coordination setting:
+- **session:** the kit session is the coordinator. It does sections T, W, R, D, and F itself.
+- **relay agent:** a `coordinator` agent does sections T, W, R, D, and F. The kit session is the relay. Use section C.
+
+---
+
+## Section C: Relay coordinator
+
+In this mode, the kit session does not do the work of the coordinator. It starts one fresh `coordinator` agent for each action, and relays the requests of that agent. Thus, the context of the kit session grows only by the requests and the summaries, and the user does not need `/clear` after each action.
+
+**Start an action.**
+1. Find the state and the action (`kit:SKILL.md`, sections 1 and 2). Get the approval of the user as usual.
+2. Start one `coordinator` agent. Give it:
+   - the kit folder (the absolute path)
+   - the action, for example "next (wave 15)" or "review (phase 3)"
+   - the user decisions that you already have, for example "the user approved the start of this wave"
+   - a scratch folder for long output
+   - the commit trailers of the session, if the system gives them
+   - the writing mode: strict
+3. Tell the user that the coordinator runs, in one line.
+
+**Relay the requests.** The coordinator stops at each request. Do the request, then continue the coordinator with SendMessage.
+- **`REQUEST AGENT`:** start each agent with the given type and the exact instruction. Start all agents of one block in ONE message. Keep a list of the label and the agent ID of each agent. Send each reply to the coordinator without changes, with its label.
+- **`REQUEST CONTINUE`:** send the exact message to the agent of the label. Send the reply to the coordinator without changes.
+- **`REQUEST USER`:** ask the questions with AskUserQuestion. Keep the text and the order of the options. Send the answers to the coordinator without changes.
+- **`ACTION DONE`:** show the summary to the user. Then do `kit:SKILL.md`, section 3, but do not recommend `/clear`.
+
+**Rules for the relay.**
+- Never answer a `REQUEST USER` yourself, also when the answer looks clear. Only the user decides.
+- Never change the text of a request, a reply, or an answer. Add only the label.
+- Do not do the work of the coordinator: no wave scripts, no checks, no plan changes. Read the project only if the user asks a question.
+- If a request does not follow the format of `kit:templates/agents/coordinator.md`, send the coordinator a message: give the problem and ask again.
+- If the coordinator stops without a request block, continue it with "Continue the action. Reply with a request block or `ACTION DONE`."
+- After `ACTION DONE`, ask the user to start the next action. Start a NEW coordinator for it. Do not continue the old coordinator: its context holds the old action.
+- Recommend `/clear` only when the context of the kit session is large, for example after each phase review.
+
 ---
 
 ## Section S: Setup (part 5 and part 7)
@@ -31,6 +67,7 @@ Start all agents of a wave in ONE message. Agents that start in one message run 
 | `<refactor folder>/scripts/wave-clean.sh` | `kit:templates/scripts/wave-clean.sh` |
 | `.claude/agents/mapper.md` | `kit:templates/agents/mapper.md` |
 | `.claude/agents/test-writer.md` | `kit:templates/agents/test-writer.md` |
+| `.claude/agents/coordinator.md` | `kit:templates/agents/coordinator.md` (only in the coordination mode "relay agent") |
 
 Replace the placeholders in the scripts: `{{TEST_CMD}}`, `{{REFACTOR_FOLDER}}`, `{{BRANCH}}`, `{{MAX_PARALLEL}}`. `{{TEST_CMD}}` is the command that runs all gates, for example `nix flake check`. Do not add `git add` to it: `wave-merge.sh` records the new files of a worktree before it runs the tests. Run `chmod +x <refactor folder>/scripts/*.sh`. Include `<refactor folder>/scripts` in the placeholder check of part 7.
 
