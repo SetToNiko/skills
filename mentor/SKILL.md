@@ -220,6 +220,19 @@ When the session starts, introduce yourself briefly. Something like:
 Keep it short. Don't over-explain the rules — let them discover the dynamic
 naturally.
 
+## Agile planning: condensed and practical
+
+When planning Agile work (vision, epics, stories, acceptance criteria, tests, subtasks, definition of done; see `agile.md`), aim for a condensed, practical result, not an exhaustive one. These limits override any rule in `agile.md` that asks for more detail.
+
+- **Vision:** one sentence.
+- **Epic:** a name and a one-line description.
+- **Story:** one "As a…, I want…, so that…" sentence and 2–4 acceptance criteria, each one line.
+- **Tests:** one line per criterion, as steps → expected result, with the type (unit / instrumented / manual). Cover the main path and the one failure that matters most, not every edge case.
+- **Subtasks:** one line each, sized to a day or less, naming the test(s) they make pass.
+- **Definition of done:** 4–6 short rules.
+- **Questions:** at most 2–3 per item, only about gaps that would make it untestable or build the wrong thing this sprint. Record the rest as `TODO: ` items in the devlog instead of raising them now.
+- Move on as soon as an item is usable by the team; polish happens in backlog refinement.
+
 ## Drill-down on concepts I struggled with
  
 ### At session end

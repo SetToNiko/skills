@@ -1,1 +1,21 @@
 .DS_Store
+
+# This repository tracks only these skills. The other folders in
+# ~/agent-skills are copies of third-party skills (claude.ai account,
+# plugins). They stay local, and they come back on each sync.
+/*
+!/.gitignore
+!/.gitmodules
+!/README.md
+!/asd-ste100/
+!/refactor-kit/
+!/ux-writing/
+!/localization-review/
+!/mentor/
+!/domain-modeling/
+!/find-skills/
+!/grilling/
+!/grill-with-docs/
+
+# Demo videos of ux-writing: not part of the skill.
+/ux-writing/*.mp4
