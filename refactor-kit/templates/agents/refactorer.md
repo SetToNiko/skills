@@ -66,6 +66,7 @@ The project-conventions skill gives the limits, their kinds, and the exception m
   - Change the expected values of a test or a golden file only for the removed behavior. List each such change in your reply.
   - All other tests must pass without changes.
 - **Do not touch the real system.** Run the project only in a temporary folder. Some scripts install, remove, or write files. Examples: an install or uninstall script, a cleanup, a switch or deploy command. Before you run such a script, set each target to a temporary folder: `PREFIX`, `DESTDIR`, `HOME`, `XDG_*` and the path variables of the project. Read the script first, and find its defaults. If you cannot make the target safe, do not run the script. Reply NEEDS. Example: a default `PREFIX` of `~/.local` can contain the user's data, and an uninstall test without `PREFIX` removes it.
+- **Background commands.** To wait for a long command (mutants, coverage, fuzz), run it in the background and wait for the completion notice of the tool. Do not write a wait loop with `pgrep -f <pattern>`: the loop command contains the pattern too, so it finds itself and never ends. Stop each background command before you reply.
 - Do not add new dependencies.
 - When you move code, move its comments with it: the doc comments, the reason comments, and the comments inside the body.
 - Do not commit. The refactor-kit skill commits.
