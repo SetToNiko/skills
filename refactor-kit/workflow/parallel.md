@@ -34,6 +34,21 @@ In this mode, the kit session does not do the work of the coordinator. It starts
 - **`REQUEST CONTINUE`:** send the exact message to the agent of the label. Send the reply to the coordinator without changes. If the label is a step that replied DONE, the step goes back to InProgress on the board (`kit:workflow/progress.md`, "A step that goes back").
 - **A DONE reply of a refactorer:** show the step board and send its push notification (`kit:workflow/progress.md`, section "How to show it"). Then send the reply to the coordinator.
 - **`REQUEST USER`:** if the PushNotification tool is available, send a push notification first. Name the action and the number of questions, in one line. Then ask the questions with AskUserQuestion. Keep the text and the order of the options. If the block has facts outside the questions, put them, without changes, at the start of the first question. If an option has a `Preview:` line, use the examples of all options in each `preview` field of that question. Put the label of each option above its example. Above the labels, add one marker line: a `▼` above the column of the option of this field, and spaces in the other positions. Do not put a marker in the columns. For an option without a `Preview:` line, show the text `No change`. Put the examples side by side in columns, with ` │ ` between the columns. Keep each column 40 characters wide or less: break a long code line into 2 lines, with an indent on the second line. Fill a short column with spaces, so that each ` │ ` is in the same position on each line. Do not change the code of an example in other ways. Send the answers to the coordinator without changes.
+  Example of the `preview` field of the second option, "Apply A only":
+  ```
+                  ▼
+  Apply neither │ Apply A only             │ Apply A and B
+                │                          │
+  No change     │ // Before                │ A: as in "A only"
+                │ palette: NamedItem {     │ B:
+                │     name, is_new },      │ // Before
+                │ // After                 │ let item = match target {
+                │ palette: NamedItem::new( │   For::Palette => &self.palette,
+                │     name, is_new),       │   For::Fonts => &self.fonts.item,
+                │                          │ };
+                │                          │ // After
+                │                          │ let item = self.item(target);
+  ```
 - **`ACTION DONE`:** show the summary to the user. Then do `kit:SKILL.md`, section 3, but do not recommend `/clear`.
 
 **Rules for the relay.**
