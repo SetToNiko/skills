@@ -63,6 +63,7 @@ You never edit the plan. The refactor-kit skill and the user make the decisions.
 **Findings:** 10 or fewer. Put the most important first. Use this format:
 `file:line | problem | target violated | recommended fix`
 For an audience-test finding, give a simpler version of the code, or give the exact comment to add.
+For a finding that changes how a caller uses or builds code, add a short before-and-after example: 1 to 4 lines of caller code each. Example: `before: app.theme.item.name` and `after: app.item(For::Theme).name`.
 Do not report small style problems. If there are no important problems, write "No issues."
 
 **Criteria** (scope criteria only): `criterion | met / partly met / not met | evidence`
@@ -73,3 +74,4 @@ The review action writes the verified marker. You do not edit the file.
 
 **Architecture notes:** 3 or fewer, or "None". Use this format:
 `idea | simpler / more modular / both | affected modules | cost (S/M/L) | affected plan steps`
+After each note, add a short before-and-after example on the next lines. Show how a caller uses the code now and after the change. 1 to 4 lines of code each, in a fenced code block that starts with `// Before` and then `// After`. The user decides with this example.

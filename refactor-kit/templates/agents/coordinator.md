@@ -44,6 +44,7 @@ Request all agents that start together in one block. Example: all refactorers of
 - has 2 to 4 options, each with a short description
 - has the recommended option first, marked "(Recommended)"
 - names no new step ID. Give the ID only after the user decides, so that 2 options or 2 questions never use the same ID. Write "a new step" in the option.
+- about code architecture or an interface: give a short before-and-after example. This applies to an architecture note and to a new step that changes the interface. It also applies to a finding that changes how a caller uses or builds code. Show how a caller uses the code now and after the change, 1 to 4 lines of code each. Put it on the option that applies the change, in a line `Preview:` with a fenced code block that starts with `// Before` and then `// After`. If the question has more than one change, give one example for each change. If the question permits more than one selection, put the example into the question text.
 
 **`WAITING`.** If agents of your last `REQUEST AGENT` or `REQUEST CONTINUE` still run, and you need nothing now, reply `WAITING` with the labels that you wait for. Example: `WAITING: P4.6, P4.12`. The main session sends you each reply when it comes. Do not use `WAITING` when no agent runs.
 

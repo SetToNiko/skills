@@ -47,6 +47,7 @@ Back to `kit:SKILL.md`.
 3. Show the findings to the user. Recommend these decisions:
    - Always apply the correctness findings and the audience-test findings.
    - Apply the other findings if they give sufficient value.
+   - For each finding or note about code architecture or an interface, show the before-and-after example of the reviewer. If the reviewer gave none, write one: how a caller uses the code now and after the change, 1 to 4 lines each.
 4. Apply the findings that the user selects. Use the refactorer agent for a large fix. Run the tests.
 5. **Exceptions.** Show the "Exceptions" list of the reviewer. The user accepts or rejects each verified exception. For each accepted exception, change its reason comment to the verified marker of the project-conventions skill, with phase <N>. Change only the comment. Run the tests.
 6. If `<refactor folder>/SUCCESS_CRITERIA.md` exists, run its measure commands again. Record the results in the "Result" column. If a ratchet count increased, tell the user. It is a finding.
@@ -79,7 +80,7 @@ Do NOT change code in this part.
    - steps that are no longer necessary, marked for removal
    - the updated "Target architecture", if it changes
    - a Phase 0 step first, if an accepted change applies to code that has no tests
-6. Show the proposal to the user as a short diff-style summary. Ask the user to approve each decision.
+6. Show the proposal to the user as a short diff-style summary. For each note, show a short before-and-after example: how a caller uses the code now and after the change, 1 to 4 lines each. Ask the user to approve each decision.
 7. After approval:
    - Update the plan. Do not change checked steps (`- [x]`). Do not change section 2. It keeps the state before the refactor.
    - Move each processed note from section 9 to section "10. Plan changelog". Use this format: `Phase <N> | note | decision | reason`.
